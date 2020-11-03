@@ -1,0 +1,19 @@
+{% load static %}
+
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>FSU Course Search</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <h1>Florida State University</h1>
+    <div class="wrapper">
+      {% block content %}
+      {% endblock %}
+  </div>
+</body>
+</html>
