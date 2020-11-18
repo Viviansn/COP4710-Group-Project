@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^classes/', include('classes.urls')),
     url(r'^$', views.login_view, name="login"),
+    url(r'^logout/$', views.logout_view, name="logout"),
     
 ]
 

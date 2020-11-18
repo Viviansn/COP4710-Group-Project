@@ -11,6 +11,14 @@
 
 <body>
     <h1>Florida State University</h1>
+    {% if user.is_authenticated %}
+    <nav>
+      <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </nav>
+    {% endif %}
     <div class="wrapper">
       {% block content %}
       {% endblock %}
