@@ -8,9 +8,10 @@ class Student(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     major = models.CharField(max_length=50)
+    semester = models.IntegerField()
 
     def __str__(self):
-        return self.FSUID 
+        return self.FSUID.username 
 
 class Professor(models.Model):
     FSUID = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -22,12 +23,15 @@ class Professor(models.Model):
         return self.FSUID.username
 
 class Class(models.Model):
-    subject_id = models.CharField(max_length=3)
-    number_id = models.CharField(max_length=4)
-    section = models.CharField(max_length=4)
-    semester = models.CharField(max_length=6)
-    year = models.IntegerField()
-    professor_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    course_reference_number = models.CharField(max_length=6, primary_key=True)
+    name = models.CharField(max_length=60)        #i.e., Programming I
+    description = models.TextField(null=True, blank=True)    # includes keywords like C++, arrays, for loops
+    subject_id = models.CharField(max_length=3)   #i.e., COP
+    number_id = models.CharField(max_length=4)    #i.e., 3014 (combined w/ line above makes COP3014)
+    section = models.IntegerField()
+    semester = models.CharField(max_length=6)     # values: FALL, SPRING, SUMMER
+    year = models.IntegerField()                  # i.e., 2021
+    professor_id = models.ForeignKey(Professor, on_delete=models.CASCADE)
     CSBS_Req = models.BooleanField(default=False, blank=True)
     CSBS_Elec = models.BooleanField(default=False, blank=True)
     CSBA_Req = models.BooleanField(default=False, blank=True)
@@ -43,7 +47,17 @@ class Class(models.Model):
     recitation_time_start = models.TimeField(null=True, blank=True)
     recitation_time_end = models.TimeField(null=True, blank=True)
     recitation_location = models.CharField(max_length=10, null=True, blank=True)
+    recommended_semester = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.subject_id + self.number_id + '-' + self.section
+        return self.subject_id + self.number_id + '-' + str(self.section).zfill(4) + ' (#' + self.course_reference_number + ')'
+
+
+class Enrolled_In(models.Model):
+    FSUID = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course_reference_number = models.ForeignKey(Class, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.FSUID.username + ' - ' + self.course_reference_number
+
 
