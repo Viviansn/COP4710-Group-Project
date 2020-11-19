@@ -116,6 +116,8 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'EST'
 
+TIME_INPUT_FORMATS = ['%I:%M %p', '%H:%M']
+
 USE_I18N = True
 
 USE_L10N = True
